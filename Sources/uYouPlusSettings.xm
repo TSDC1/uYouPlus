@@ -105,15 +105,13 @@ extern NSBundle *uYouPlusBundle();
 
 // Settings
 %hook YTAppSettingsPresentationData
-+ (NSArray <NSNumber *> *)settingsCategoryOrder {
-    NSArray <NSNumber *> *order = %orig;
++ (NSArray *)settingsCategoryOrder {
+    NSArray *order = %orig;
+    NSMutableArray *mutableOrder = [order mutableCopy];
     NSUInteger insertIndex = [order indexOfObject:@(1)];
-    if (insertIndex != NSNotFound) {
-        NSMutableArray <NSNumber *> *mutableOrder = [order mutableCopy];
+    if (insertIndex != NSNotFound)
         [mutableOrder insertObject:@(uYouPlusSection) atIndex:insertIndex + 1];
-        order = mutableOrder.copy;
-    }
-    return order;
+    return mutableOrder;
 }
 %end
 
